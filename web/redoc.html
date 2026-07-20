@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Redoc · NestJS Demo</title>
+  <style>
+    body { margin: 0; padding: 0; }
+    .bar {
+      display: flex; gap: 12px; align-items: center; justify-content: space-between;
+      padding: 12px 18px; background: #121a2b; color: #e8eefc;
+      font-family: Inter, system-ui, sans-serif; border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .bar a { color: #38bdf8; text-decoration: none; font-size: 0.9rem; margin-left: 10px; }
+  </style>
+</head>
+<body>
+  <div class="bar">
+    <strong>Redoc · NestJS Demo</strong>
+    <div>
+      <a href="./">Demo</a>
+      <a href="./swagger.html">Swagger</a>
+    </div>
+  </div>
+  <redoc spec-url="./openapi.json"></redoc>
+  <script src="https://cdn.redoc.ly/redoc/latest/bundles/redoc.standalone.js"></script>
+</body>
+</html>

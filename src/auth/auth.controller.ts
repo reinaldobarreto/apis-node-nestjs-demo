@@ -1,8 +1,30 @@
 import { Body, Controller, Post } from '@nestjs/common';
+import { ApiBody, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 
 @Controller('auth')
+@ApiTags('auth')
 export class AuthController {
   @Post('login')
+  @ApiOperation({ summary: 'Login demo e emissão de JWT' })
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        email: { type: 'string', example: 'demo@corelabs.dev' },
+        password: { type: 'string', example: 'demo123' },
+      },
+    },
+  })
+  @ApiOkResponse({
+    description: 'Token JWT emitido',
+    schema: {
+      example: {
+        access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
+        token_type: 'Bearer',
+        expires_in: 3600,
+      },
+    },
+  })
   login(@Body() body: { email?: string; password?: string }) {
     const email = body?.email || 'demo@corelabs.dev';
     const payload = {

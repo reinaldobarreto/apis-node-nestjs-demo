@@ -1,0 +1,165 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "APIs Node/NestJS Demo",
+    "description": "Demo CoreLabs para recrutadores: CRUD completo (GET, POST, PUT, PATCH, DELETE), JWT, Swagger e Redoc.",
+    "version": "1.1.0"
+  },
+  "servers": [
+    { "url": "http://localhost:3000", "description": "NestJS local" }
+  ],
+  "tags": [
+    { "name": "health" },
+    { "name": "auth" },
+    { "name": "users" }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearer": { "type": "http", "scheme": "bearer", "bearerFormat": "JWT" }
+    },
+    "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "example": 1 },
+          "name": { "type": "string", "example": "Ana Silva" },
+          "email": { "type": "string", "example": "ana@corelabs.dev" },
+          "role": { "type": "string", "example": "admin" }
+        }
+      }
+    }
+  },
+  "paths": {
+    "/health": {
+      "get": {
+        "tags": ["health"],
+        "summary": "GET — health check",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "ok",
+                  "service": "apis-node-nestjs-demo",
+                  "uptimeSec": 12,
+                  "timestamp": "2026-07-20T22:00:00.000Z"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": ["auth"],
+        "summary": "POST — login e JWT",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": { "type": "string", "example": "demo@corelabs.dev" },
+                  "password": { "type": "string", "example": "demo123" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Token emitido",
+            "content": {
+              "application/json": {
+                "example": {
+                  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+                  "token_type": "Bearer",
+                  "expires_in": 3600
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "tags": ["users"],
+        "summary": "GET — listar usuários",
+        "security": [{ "bearer": [] }],
+        "responses": {
+          "200": { "description": "Lista de usuários" },
+          "401": { "description": "Unauthorized" }
+        }
+      },
+      "post": {
+        "tags": ["users"],
+        "summary": "POST — criar usuário",
+        "security": [{ "bearer": [] }],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["name", "email"],
+                "properties": {
+                  "name": { "type": "string", "example": "Diego Rocha" },
+                  "email": { "type": "string", "example": "diego@corelabs.dev" },
+                  "role": { "type": "string", "example": "developer" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Criado" },
+          "401": { "description": "Unauthorized" }
+        }
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "tags": ["users"],
+        "summary": "GET — buscar por id",
+        "security": [{ "bearer": [] }],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }],
+        "responses": {
+          "200": { "description": "Usuário" },
+          "404": { "description": "Não encontrado" }
+        }
+      },
+      "put": {
+        "tags": ["users"],
+        "summary": "PUT — substituir usuário",
+        "security": [{ "bearer": [] }],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }],
+        "responses": {
+          "200": { "description": "Substituído" },
+          "404": { "description": "Não encontrado" }
+        }
+      },
+      "patch": {
+        "tags": ["users"],
+        "summary": "PATCH — atualizar parcial",
+        "security": [{ "bearer": [] }],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }],
+        "responses": {
+          "200": { "description": "Atualizado" },
+          "404": { "description": "Não encontrado" }
+        }
+      },
+      "delete": {
+        "tags": ["users"],
+        "summary": "DELETE — remover usuário",
+        "security": [{ "bearer": [] }],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }],
+        "responses": {
+          "200": { "description": "Removido" },
+          "404": { "description": "Não encontrado" }
+        }
+      }
+    }
+  }
+}
